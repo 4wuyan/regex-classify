@@ -2,6 +2,8 @@ import re
 import argparse
 import os
 import shutil
+import sys
+import logging
 
 
 def parse_arguments():
@@ -46,9 +48,14 @@ def main():
     directory_regex = args.directory
     file_regex = args.file
 
-    matching_files = [File(os.path.join(root, filename))
-                      for root, _subdirectories, files in os.walk(source_directory)
-                      for filename in files if matching_pattern.match(filename) is not None]
+    matching_files = []
+    for root, _subdirectories, files in os.walk(source_directory):
+        for filename in files:
+            full_path = os.path.join(root, filename)
+            if matching_pattern.match(filename) is None:
+                logging.info(f'{full_path} is ignored.')
+            else:
+                matching_files.append(File(full_path))
 
     for file in matching_files:
         new_filename = matching_pattern.sub(file_regex, file.filename)
@@ -58,8 +65,13 @@ def main():
         if not os.path.isdir(destination_directory):
             os.makedirs(destination_directory)
 
-        file.move_to(os.path.join(destination_directory, new_filename))
+        target_path = os.path.join(destination_directory, new_filename)
+        if os.path.isfile(target_path):
+            logging.warning(f'{target_path} already exists! {file.absolute_path} not moved.')
+        else:
+            file.move_to(target_path)
 
 
 if __name__ == '__main__':
+    logging.basicConfig(stream=sys.stderr)
     main()
