@@ -5,7 +5,7 @@ import sys
 import logging
 
 
-def parse_arguments():
+def _parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', type=Path, default=Path.cwd(), help="source directory")
     parser.add_argument('-o', '--output', type=Path, default=Path.cwd(), help="target directory")
@@ -18,7 +18,7 @@ def parse_arguments():
 
 
 def main():
-    args = parse_arguments()
+    args = _parse_arguments()
 
     source_directory = args.input.resolve()
     target_directory = args.output.resolve()
@@ -28,11 +28,10 @@ def main():
 
     matching_paths = []
     for path in source_directory.glob(r'**/*'):
-        if path.is_file():
-            if matching_pattern.match(path.name) is None:  # path.name is filename
-                logging.warning(f'{path} is ignored.')
-            else:
-                matching_paths.append(path)
+        if matching_pattern.match(path.name) is None:
+            logging.warning(f'{path} is ignored.')
+        else:
+            matching_paths.append(path)
 
     for path in matching_paths:
         filename = path.name
