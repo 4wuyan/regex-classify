@@ -40,8 +40,7 @@ def main():
         folder_name = matching_pattern.sub(directory_regex, filename)
 
         folder_path = target_directory / folder_name
-        if not folder_path.is_dir():
-            folder_path.mkdir()
+        folder_path.mkdir(parents=True, exist_ok=True)
 
         new_path = folder_path / new_filename
         if new_path.is_file():
