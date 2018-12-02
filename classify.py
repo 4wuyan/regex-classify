@@ -5,7 +5,7 @@ import sys
 import logging
 
 
-def _parse_arguments():
+def _parse_arguments(*args):
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', type=Path, default=Path.cwd(), help="source directory")
     parser.add_argument('-o', '--output', type=Path, default=Path.cwd(), help="target directory")
@@ -13,18 +13,18 @@ def _parse_arguments():
     parser.add_argument('-d', '--directory', type=str, default=r'\g<1>', help="regex for new directory names")
     parser.add_argument('-f', '--file', type=str, default=r'\g<0>', help="regex for new filename")
 
-    args = parser.parse_args()
-    return args
+    arguments = parser.parse_args(args) if args else parser.parse_args()
+    return arguments
 
 
-def main():
-    args = _parse_arguments()
+def main(*args):
+    arguments = _parse_arguments(*args)
 
-    source_directory = args.input.resolve()
-    target_directory = args.output.resolve()
-    matching_pattern = re.compile(args.regex)
-    directory_regex = args.directory
-    file_regex = args.file
+    source_directory = arguments.input.resolve()
+    target_directory = arguments.output.resolve()
+    matching_pattern = re.compile(arguments.regex)
+    directory_regex = arguments.directory
+    file_regex = arguments.file
 
     matching_paths = []
     for path in source_directory.glob(r'**/*'):
