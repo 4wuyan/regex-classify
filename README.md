@@ -37,14 +37,90 @@ So it's not needed unless you want to rename the file.
 
 #### Before
 ```
-pass
+./A000VOI123ZH_00.pdf
+./E100PIN105ZH_00.pdf
+./classify.py
+```
+
+#### Command
+```bash
+python classify.py '....(......).....\.pdf'
+```
+
+#### After
+```
+./VOI123/A000VOI123ZH_00.pdf
+./PIN105/E100PIN105ZH_00.pdf
+./classify.py
 ```
 
 ### Capture multiple extensions
 
+#### Before
+```
+./A000VOI123ZH_00.pdf
+./E100PIN105ZH_00.docx
+./classify.py
+```
+
+#### Command
+```bash
+python classify.py '....(......).....\.(pdf|docx)'
+```
+
+#### After
+```
+./VOI123/A000VOI123ZH_00.pdf
+./PIN105/E100PIN105ZH_00.docx
+./classify.py
+```
+
 ### With renaming
 
+#### Before
+```
+./A000VOI123ZH_00.pdf
+./E100PIN105ZH.00.pdf
+./classify.py
+```
+
+#### Command
+```bash
+python classify.py '(....(......)..).(..\.pdf)' -d '\2' -f '\1_\3'
+```
+
+#### After
+```
+./VOI123/A000VOI123ZH_00.pdf
+./PIN105/E100PIN105ZH_00.pdf
+./classify.py
+```
+
 ### Multi-level classification
+
+#### Before
+```
+./bill smith
+./amy smith
+./tom smith
+./bill gates
+./sarah gates
+./classify.py
+```
+
+#### Command
+```bash
+python classify.py '(\w+) (\w+)' -d  '\2/\1' -f '\1-\2'
+```
+
+#### After
+```
+./smith/bill/bill-smith
+./smith/amy/amy-smith
+./smith/tom/tom-smith
+./gates/bill/bill-gates
+./gates/sarah/sarah-gates
+```
 
 ## Requirements
 
