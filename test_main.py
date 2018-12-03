@@ -16,7 +16,7 @@ def test_basic(tmp_path):
     for p in paths:
         p.touch()
 
-    main(*rf'....(......).....\.pdf'.split())
+    main(*r'....(......).....\.pdf'.split())
 
     for p in paths:
         assert not p.is_file()
@@ -85,7 +85,7 @@ def test_multiple_extensions(tmp_path):
     for p in paths:
         p.touch()
 
-    main(*rf'....(......).....\.(pdf|docx)'.split())
+    main(*r'....(......).....\.(pdf|docx)'.split())
 
     assert Path('A000VOI123ZH_00.doc').is_file()
     assert not Path('E100VOI123ZH_00.pdf').is_file()
@@ -109,7 +109,7 @@ def test_folders_wont_be_matched(tmp_path):
     Path('A100PIN105ZH_00.pdf/aaa').touch()
     Path('A100PIN105ZH_00.pdf/bbb').touch()
 
-    main(*rf'....(......).....\.pdf'.split())
+    main(*r'....(......).....\.pdf'.split())
 
     assert not Path('A000VOI123ZH_00.pdf').is_file()
     assert not Path('E100VOI123ZH_00.pdf').is_file()
@@ -134,9 +134,31 @@ def test_duplicate_files_not_moved(tmp_path):
     Path('b').mkdir()
     Path('b/A000VOI123ZH_00.pdf').touch()
 
-    main(*rf'....(......).....\.pdf'.split())
+    main(*r'....(......).....\.pdf'.split())
 
     one_file_moved = Path('VOI123/A000VOI123ZH_00.pdf').is_file()
     one_file_not_moved = Path('a/A000VOI123ZH_00.pdf').is_file() or Path('b/A000VOI123ZH_00.pdf').is_file()
 
     assert one_file_moved and one_file_not_moved
+
+
+def test_multi_level_classification(tmp_path):
+    (tmp_path/'bill smith').touch()
+    (tmp_path/'amy smith').touch()
+    (tmp_path/'tom smith').touch()
+    (tmp_path/'bill gates').touch()
+    (tmp_path/'sarah gates').touch()
+
+    main(*[r'(\w+) (\w+)'] + rf'-d \2/\1 --input={tmp_path} --output {tmp_path}/out/ -f \1-\2'.split())
+
+    assert not (tmp_path/'bill smith').exists()
+    assert not (tmp_path/'amy smith').exists()
+    assert not (tmp_path/'tom smith').exists()
+    assert not (tmp_path/'bill gates').exists()
+    assert not (tmp_path/'sarah gates').exists()
+
+    assert (tmp_path/'out/smith/bill/bill-smith').exists()
+    assert (tmp_path/'out/smith/amy/amy-smith').exists()
+    assert (tmp_path/'out/smith/tom/tom-smith').exists()
+    assert (tmp_path/'out/gates/bill/bill-gates').exists()
+    assert (tmp_path/'out/gates/sarah/sarah-gates').exists()

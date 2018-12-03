@@ -22,11 +22,13 @@ optional arguments:
   -f FILE, --file FILE  regex for new filename
 ```
 
-Use `-i` and `-o` to specify the input folder and output folder repectively, the default being the current working directory.
+Use `-i` and `-o` to specify the input folder and output folder respectively,
+the default being the current working directory.
 
 `-d` tells what the directory name looks like; the default value is `\1`.
 
-`-f` specifies the new filename; the default the value is group 0, i.e. the entire pattern, i.e. the original filename.
+`-f` specifies the new filename;
+the default the value is group 0, i.e. the entire pattern, i.e. the original filename.
 So it's not needed unless you want to rename the file.
 
 ## Examples
