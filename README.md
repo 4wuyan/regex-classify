@@ -120,6 +120,7 @@ python classify.py '(\w+) (\w+)' -d  '\2/\1' -f '\1-\2'
 ./smith/tom/tom-smith
 ./gates/bill/bill-gates
 ./gates/sarah/sarah-gates
+./classify.py
 ```
 
 ## Requirements
