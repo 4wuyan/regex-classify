@@ -100,11 +100,11 @@ python classify.py '(....(......)..).(..\.pdf)' -d '\2' -f '\1_\3'
 
 #### Before
 ```
-./bill smith
-./amy smith
-./tom smith
-./bill gates
-./sarah gates
+'./bill smith'
+'./amy smith'
+'./tom smith'
+'./bill gates'
+'./sarah gates'
 ./classify.py
 ```
 
