@@ -22,7 +22,7 @@ optional arguments:
   -f FILE, --file FILE  regex for new filename
 ```
 
-Use `-i` and `-o` to specify the input folder and output folder respectively,
+Use `-i` and `-o` to specify the input folder and the output folder respectively,
 the default being the current working directory.
 
 `-d` tells what the directory name looks like; the default value is `\1`.
