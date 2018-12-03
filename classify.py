@@ -28,10 +28,11 @@ def main(*args):
 
     matching_paths = []
     for path in source_directory.glob(r'**/*'):
-        if matching_pattern.match(path.name) is None:
-            logging.warning(f'{path} is ignored.')
-        else:
-            matching_paths.append(path)
+        if path.is_file():
+            if matching_pattern.match(path.name) is None:  # path.name is filename
+                logging.warning(f'{path} is ignored.')
+            else:
+                matching_paths.append(path)
 
     for path in matching_paths:
         filename = path.name
