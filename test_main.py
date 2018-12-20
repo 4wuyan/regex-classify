@@ -88,9 +88,9 @@ def test_multiple_extensions(tmp_path):
     main(*r'....(......).....\.(pdf|docx)'.split())
 
     assert Path('A000VOI123ZH_00.doc').is_file()
-    assert not Path('E100VOI123ZH_00.pdf').is_file()
-    assert not Path('E100PIN105ZH_00.docx').is_file()
-    assert not Path('A100PIN105ZH_00.pdf').is_file()
+    assert not Path('E100VOI123ZH_00.pdf').exists()
+    assert not Path('E100PIN105ZH_00.docx').exists()
+    assert not Path('A100PIN105ZH_00.pdf').exists()
 
     assert not Path('VOI123/A000VOI123ZH_00.doc').exists()
     assert Path('VOI123/E100VOI123ZH_00.pdf').is_file()
@@ -111,10 +111,10 @@ def test_folders_wont_be_matched(tmp_path):
 
     main(*r'....(......).....\.pdf'.split())
 
-    assert not Path('A000VOI123ZH_00.pdf').is_file()
-    assert not Path('E100VOI123ZH_00.pdf').is_file()
+    assert not Path('A000VOI123ZH_00.pdf').exists()
+    assert not Path('E100VOI123ZH_00.pdf').exists()
     assert Path('E100PIN105ZH_00.pdf').is_dir()
-    assert not Path('E100PIN105ZH_00.pdf/E100PIN105ZH_00.pdf').is_file()
+    assert not Path('E100PIN105ZH_00.pdf/E100PIN105ZH_00.pdf').exists()
     assert Path('A100PIN105ZH_00.pdf').is_dir()
     assert Path('A100PIN105ZH_00.pdf/aaa').is_file()
     assert Path('A100PIN105ZH_00.pdf/bbb').is_file()
@@ -157,8 +157,8 @@ def test_multi_level_classification(tmp_path):
     assert not (tmp_path/'bill gates').exists()
     assert not (tmp_path/'sarah gates').exists()
 
-    assert (tmp_path/'out/smith/bill/bill-smith').exists()
-    assert (tmp_path/'out/smith/amy/amy-smith').exists()
-    assert (tmp_path/'out/smith/tom/tom-smith').exists()
-    assert (tmp_path/'out/gates/bill/bill-gates').exists()
-    assert (tmp_path/'out/gates/sarah/sarah-gates').exists()
+    assert (tmp_path/'out/smith/bill/bill-smith').is_file()
+    assert (tmp_path/'out/smith/amy/amy-smith').is_file()
+    assert (tmp_path/'out/smith/tom/tom-smith').is_file()
+    assert (tmp_path/'out/gates/bill/bill-gates').is_file()
+    assert (tmp_path/'out/gates/sarah/sarah-gates').is_file()
