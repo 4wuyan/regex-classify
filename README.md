@@ -126,5 +126,6 @@ python classify.py '(\w+) (\w+)' -d '\2/\1' -f '\1-\2'
 ## Requirements
 
 f-string and pathlib are used. Make sure your Python supports them.
+(At least Python 3.6.)
 
 Tests utilize pytest.
