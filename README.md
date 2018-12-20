@@ -110,7 +110,7 @@ python classify.py '(....(......)..).(..\.pdf)' -d '\2' -f '\1_\3'
 
 #### Command
 ```bash
-python classify.py '(\w+) (\w+)' -d  '\2/\1' -f '\1-\2'
+python classify.py '(\w+) (\w+)' -d '\2/\1' -f '\1-\2'
 ```
 
 #### After
